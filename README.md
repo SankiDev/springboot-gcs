@@ -14,39 +14,39 @@
     
     It will look something like below. This indicates that the server is running and there is a bucket “test-bucket” created, which can be used to store files or folders
     
-    ![Untitled](GCS%2088a3b2906ef148a780ca297c40485a8a/Untitled.png)
+    ![Untitled](readme_assets/Untitled.png)
     
 
 ## Setup Spring Boot Project :
 
 - Go to  [https://start.spring.io/](https://start.spring.io/) and configure like below
     
-    ![Untitled](GCS%2088a3b2906ef148a780ca297c40485a8a/Untitled%201.png)
+    ![Untitled](readme_assets/Untitled%201.png)
     
 - Click on Generate to download this starter project
 - Extract the downloaded project
 - Open Eclipse IDE and create a workspace
 - Click on **Import Projects** and select **Existing Maven Projects** and click next
     
-    ![Untitled](GCS%2088a3b2906ef148a780ca297c40485a8a/Untitled%202.png)
+    ![Untitled](readme_assets/Untitled%202.png)
     
 - Browse the location of extracted project
     
-    ![Untitled](GCS%2088a3b2906ef148a780ca297c40485a8a/Untitled%203.png)
+    ![Untitled](readme_assets/Untitled%203.png)
     
 - Click Finish
 - IDE will start importing the maven project and required dependencies.
 - Once the project gets imported, the project structure will like below
     
-    ![Untitled](GCS%2088a3b2906ef148a780ca297c40485a8a/Untitled%204.png)
+    ![Untitled](readme_assets/Untitled%204.png)
     
 - Right Click on [GcsApplication.java](http://GcsApplication.java) file, and select Run As —>Java Application
     
-    ![Untitled](GCS%2088a3b2906ef148a780ca297c40485a8a/Untitled%205.png)
+    ![Untitled](readme_assets/Untitled%205.png)
     
 - We should see the application logs with some errors “java.io.IOException: Your default credentials were not found. To set up Application Default Credentials for your environment, see [https://cloud.google.com/docs/authentication/external/set-up-adc](https://cloud.google.com/docs/authentication/external/set-up-adc).”
     
-    ![Untitled](GCS%2088a3b2906ef148a780ca297c40485a8a/Untitled%206.png)
+    ![Untitled](readme_assets/Untitled%206.png)
     
 - These errors are occurs since we have added dependency of “GSCP Storage” in the project. This dependency expects the credentials to be supplied in [application.properties](http://application.properties) file (ServiceAccountKey files) to auto-configure Google cloud storage bean to connect to GCS bucket. But since we are using containerized fake-gcs-server instead of actual GCS server, we wont have these credentials. So we want to override the process of creating Storage bean to use no credentials and use our fake-gcs-server url instead of actual gcs bucket.
 - To override the Storage bean and run the application without credentials, create a file (GcsConfig.java inside a new package, com.sankidev.gcs.config) annotated with @Configuration and add below 2 methods in it.
@@ -188,11 +188,11 @@ To modularize the application, we we split our code into different parts, eg, co
 - Brose for test.txt file as value
 - Click Send. The file gets uploaded to the bucket
     
-    ![Untitled](GCS%2088a3b2906ef148a780ca297c40485a8a/Untitled%207.png)
+    ![Untitled](readme_assets/Untitled%207.png)
     
 - Open the url [http://localhost:9093/storage/v1/b/test-bucket/o](http://localhost:9093/storage/v1/b/test-bucket/o) in the browser to check the uploaded file
     
-    ![Untitled](GCS%2088a3b2906ef148a780ca297c40485a8a/Untitled%208.png)
+    ![Untitled](readme_assets/Untitled%208.png)
     
 
 ## Getting List of Files
@@ -232,7 +232,7 @@ To modularize the application, we we split our code into different parts, eg, co
 - Select Method as GET
 - hit url [localhost:8080/api/list](http://localhost:8080/api/list) , you should get response with list of filenames
     
-    ![Untitled](GCS%2088a3b2906ef148a780ca297c40485a8a/Untitled%209.png)
+    ![Untitled](readme_assets/Untitled%209.png)
     
 
 ## Reading Contents of file
@@ -270,4 +270,4 @@ To modularize the application, we we split our code into different parts, eg, co
 - Select  method as GET
 - hit url [localhost:8080/api/read/test.txt](http://localhost:8080/api/read/test.txt) , you should see the response with content of file in test.txt
     
-    ![Untitled](GCS%2088a3b2906ef148a780ca297c40485a8a/Untitled%2010.png)
+    ![Untitled](readme_assets/Untitled%2010.png)
